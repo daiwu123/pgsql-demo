@@ -1,0 +1,12 @@
+org.springframework.context.ApplicationListener=com.example.pgsqldemo.event.MyContextCloseEvent
+
+
+
+
+org.springframework.context.ApplicationContextInitializer=com.example.pgsqldemo.contenxtInit.MyApplicationContextInitializer
+
+
+
+com.example.pgsqldemo.test.MyTeacherRun=\
+com.example.pgsqldemo.test.TeacherKu,\
+com.example.pgsqldemo.test.ArgumentTest$TeacherKu1

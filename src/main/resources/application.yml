@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: pgsql-demo
+
+
+server:
+  port: 8080
+
+demo:
+  influx:
+    enabled: false
+    url: http://localhost:8086
+    token: change-me
+    org: demo-org
+    bucket: metrics
+    measurement: machine_metrics
+  timescale:
+    enabled: false
+    init-schema: true
+    jdbc-url: jdbc:postgresql://localhost:5432/tsdb_demo
+    username: postgres
+    password: postgres
+
+
+self:
+  add: ${nacosurl}
+
