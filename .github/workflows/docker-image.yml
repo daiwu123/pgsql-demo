@@ -1,19 +1,38 @@
-name: Docker Image CI
+name: Build and Push Docker Image
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [master]
   workflow_dispatch:
+
 permissions:
   contents: read
   packages: write
+
 jobs:
-
-  build:
-
+  docker:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Build jar
+        run: mvn clean package -DskipTests
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push image
+        run: |
+          docker build -t ghcr.io/daiwu123/pgsql-demo:latest .
+          docker push ghcr.io/daiwu123/pgsql-demo:latest
